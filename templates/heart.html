@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cardiovascular Disease Prediction</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #fff1f3, #f4f6f8);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 700px;
+            max-width: 92%;
+            margin: 40px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.10);
+        }
+
+        h1 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #ef476f;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #ef476f;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #d9365f;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 18px;
+            text-align: center;
+            border-radius: 8px;
+            background-color: #f1f1f1;
+            color: #222;
+        }
+
+        .result h2 {
+            margin: 0;
+        }
+
+        .error {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #ffe5e5;
+            color: #c62828;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .back:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>❤️ Cardiovascular Disease Prediction</h1>
+
+        <p class="subtitle">
+            Enter the patient's health information
+        </p>
+
+        <form action="/heart" method="POST">
+
+            <!-- ID -->
+            <div class="form-group">
+                <label>Patient ID</label>
+                <input type="number" name="id" placeholder="Example: 1001" required>
+            </div>
+
+            <!-- Age -->
+            <div class="form-group">
+                <label>Age</label>
+                <input type="number" name="age" placeholder="Enter age" required>
+            </div>
+
+            <!-- Gender -->
+            <div class="form-group">
+                <label>Gender</label>
+                <select name="gender" required>
+                    <option value="">Select</option>
+                    <option value="1">Female</option>
+                    <option value="2">Male</option>
+                </select>
+            </div>
+
+            <!-- Height -->
+            <div class="form-group">
+                <label>Height (cm)</label>
+                <input type="number" name="height" placeholder="Example: 170" required>
+            </div>
+
+            <!-- Weight -->
+            <div class="form-group">
+                <label>Weight (kg)</label>
+                <input type="number" step="0.1" name="weight" placeholder="Example: 75" required>
+            </div>
+
+            <!-- Systolic BP -->
+            <div class="form-group">
+                <label>Systolic Blood Pressure</label>
+                <input type="number" name="ap_hi" placeholder="Example: 120" required>
+            </div>
+
+            <!-- Diastolic BP -->
+            <div class="form-group">
+                <label>Diastolic Blood Pressure</label>
+                <input type="number" name="ap_lo" placeholder="Example: 80" required>
+            </div>
+
+            <!-- Cholesterol -->
+            <div class="form-group">
+                <label>Cholesterol</label>
+                <select name="cholesterol" required>
+                    <option value="">Select</option>
+                    <option value="1">Normal</option>
+                    <option value="2">Above Normal</option>
+                    <option value="3">Well Above Normal</option>
+                </select>
+            </div>
+
+            <!-- Glucose -->
+            <div class="form-group">
+                <label>Glucose</label>
+                <select name="gluc" required>
+                    <option value="">Select</option>
+                    <option value="1">Normal</option>
+                    <option value="2">Above Normal</option>
+                    <option value="3">Well Above Normal</option>
+                </select>
+            </div>
+
+            <!-- Smoking -->
+            <div class="form-group">
+                <label>Smoking</label>
+                <select name="smoke" required>
+                    <option value="">Select</option>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+
+            <!-- Alcohol -->
+            <div class="form-group">
+                <label>Alcohol Consumption</label>
+                <select name="alco" required>
+                    <option value="">Select</option>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+
+            <!-- Physical Activity -->
+            <div class="form-group">
+                <label>Physical Activity</label>
+                <select name="active" required>
+                    <option value="">Select</option>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+
+            <button type="submit">
+                Predict Heart Risk
+            </button>
+
+        </form>
+
+        {% if prediction %}
+        <div class="result">
+            <h2>{{ prediction }}</h2>
+        </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="error">
+            <strong>Error:</strong>
+            <p>{{ error }}</p>
+        </div>
+        {% endif %}
+
+        <a href="/" class="back">
+            ← Back to Home
+        </a>
+
+    </div>
+
+</body>
+
+</html>

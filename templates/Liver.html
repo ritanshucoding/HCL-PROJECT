@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Liver Disease Prediction</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        input {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        .button-container {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 13px 35px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            text-align: center;
+            background: #eef7ee;
+            border-radius: 8px;
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #555;
+        }
+
+        @media (max-width: 700px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            body {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🩺 Liver Disease Prediction</h1>
+
+    <p class="subtitle">
+        Enter the patient's medical information to predict the liver disease result.
+    </p>
+
+    <form action="/liver" method="POST">
+
+        <div class="form-grid">
+
+            <!-- Age -->
+            <div class="form-group">
+                <label>Age of the Patient</label>
+                <input
+                    type="number"
+                    name="age"
+                    step="any"
+                    required
+                    placeholder="Example: 45">
+            </div>
+
+            <!-- Total Bilirubin -->
+            <div class="form-group">
+                <label>Total Bilirubin</label>
+                <input
+                    type="number"
+                    name="total_bilirubin"
+                    step="any"
+                    required
+                    placeholder="Example: 1.2">
+            </div>
+
+            <!-- Direct Bilirubin -->
+            <div class="form-group">
+                <label>Direct Bilirubin</label>
+                <input
+                    type="number"
+                    name="direct_bilirubin"
+                    step="any"
+                    required
+                    placeholder="Example: 0.4">
+            </div>
+
+            <!-- Alkaline Phosphotase -->
+            <div class="form-group">
+                <label>Alkphos Alkaline Phosphotase</label>
+                <input
+                    type="number"
+                    name="alkphos"
+                    step="any"
+                    required
+                    placeholder="Example: 200">
+            </div>
+
+            <!-- SGPT -->
+            <div class="form-group">
+                <label>SGPT Alamine Aminotransferase</label>
+                <input
+                    type="number"
+                    name="sgpt"
+                    step="any"
+                    required
+                    placeholder="Example: 30">
+            </div>
+
+            <!-- SGOT -->
+            <div class="form-group">
+                <label>SGOT Aspartate Aminotransferase</label>
+                <input
+                    type="number"
+                    name="sgot"
+                    step="any"
+                    required
+                    placeholder="Example: 35">
+            </div>
+
+            <!-- Total Proteins -->
+            <div class="form-group">
+                <label>Total Proteins</label>
+                <input
+                    type="number"
+                    name="total_proteins"
+                    step="any"
+                    required
+                    placeholder="Example: 6.8">
+            </div>
+
+            <!-- Albumin -->
+            <div class="form-group">
+                <label>ALB Albumin</label>
+                <input
+                    type="number"
+                    name="albumin"
+                    step="any"
+                    required
+                    placeholder="Example: 3.5">
+            </div>
+
+            <!-- A/G Ratio -->
+            <div class="form-group">
+                <label>A/G Ratio Albumin and Globulin Ratio</label>
+                <input
+                    type="number"
+                    name="ag_ratio"
+                    step="any"
+                    required
+                    placeholder="Example: 1.0">
+            </div>
+
+        </div>
+
+        <div class="button-container">
+            <button type="submit">
+                Predict Liver Disease
+            </button>
+        </div>
+
+    </form>
+
+    {% if prediction %}
+    <div class="result">
+        Prediction: {{ prediction }}
+    </div>
+    {% endif %}
+
+    <a href="/" class="back">
+        ← Back to Home
+    </a>
+
+</div>
+
+</body>
+</html>
