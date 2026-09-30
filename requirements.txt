@@ -1,68 +1,8 @@
-pandas
+Flask
+gunicorn
+joblib
 numpy
+pandas
+scikit-learn
 matplotlib
 seaborn
-scikit-learn
-flask
-jupyter
-
-
-Dataset
-   ↓
-Check missing values
-   ↓
-Find invalid zeros
-   ↓
-Replace zeros with NaN
-   ↓
-Fill NaN using median
-   ↓
-Clean dataset 
-
-# Here, we train first ML Model
-0 → No recorded diabetes outcome
-1 → Diabetes outcome
-
-# Conceptually
-X_train                         y_train
-   │                               │
-   │       Training               │
-   └───────────┬───────────────────┘
-               ↓
-       Logistic Regression
-               ↓
-         Learned Model
-
-
-We have:
-X_test
-   ↓
-Trained Model
-   ↓
-Predicted Outcome
-   ↓
-y_pred
-
-
-
-# ML WorkFlow
-Dataset
-   ↓
-Cleaning
-   ↓
-EDA
-   ↓
-X / y
-   ↓
-80/20 Train-Test Split
-   ↓
-Logistic Regression
-   ↓
-Predictions
-   ↓
-Accuracy
-   ↓
-Classification Report
-
-
-.pkl is a saved Python object containing our trained ML model
