@@ -1,593 +1,1008 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Early Disease Prediction System</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
-
-        /* ================= GLOBAL ================= */
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        :root {
+            --blue: #526cff;
+            --pink: #f04470;
+            --purple: #9257f5;
+            --green: #2eae83;
+            --text: #172c5b;
+            --muted: #7587ad;
+            --border: #dce8ff;
         }
 
         body {
             min-height: 100vh;
-
+            font-family: 'Inter', Arial, sans-serif;
+            color: var(--text);
             background:
-                radial-gradient(circle at top left, #e8f1ff, transparent 35%),
-                radial-gradient(circle at bottom right, #eafaf7, transparent 35%),
-                #f7f9fc;
-
-            color: #172033;
-
-            padding: 45px 20px;
+                radial-gradient(circle at 5% 12%, #dceaff 0, transparent 30%),
+                radial-gradient(circle at 95% 75%, #f5e1ff 0, transparent 32%),
+                linear-gradient(135deg, #f7faff, #edf3ff);
         }
 
-
-        /* ================= HEADER ================= */
-
-        .header {
-            text-align: center;
-
-            max-width: 900px;
-
-            margin: 0 auto 55px;
-        }
-
-        .badge {
-            display: inline-block;
-
-            padding: 8px 16px;
-
-            border-radius: 30px;
-
-            background: #eaf3ff;
-
-            color: #087ff5;
-
-            font-size: 13px;
-
-            font-weight: bold;
-
-            margin-bottom: 18px;
-
-            border: 1px solid #d7e8ff;
-        }
-
-        .header h1 {
-            font-size: 44px;
-
-            font-weight: 700;
-
-            margin-bottom: 16px;
-
-            letter-spacing: -1px;
-
-            color: #101828;
-        }
-
-        .header h1 span {
-            color: #087ff5;
-        }
-
-        .header p {
-            font-size: 18px;
-
-            line-height: 1.7;
-
-            color: #667085;
-
-            max-width: 650px;
-
-            margin: auto;
-        }
-
-        .header-line {
-            width: 80px;
-
-            height: 4px;
-
-            background: linear-gradient(
-                90deg,
-                #087ff5,
-                #2a9d8f
-            );
-
-            margin: 22px auto 0;
-
-            border-radius: 10px;
-        }
-
-
-        /* ================= CONTAINER ================= */
-
-        .container {
-            max-width: 1050px;
-
-            margin: auto;
-
-            display: grid;
-
-            grid-template-columns: repeat(3, 1fr);
-
-            gap: 30px;
-        }
-
-
-        /* ================= CARD ================= */
-
-        .card {
-            position: relative;
-
-            background: rgba(255, 255, 255, 0.94);
-
-            border: 1px solid #e6eaf0;
-
-            border-radius: 20px;
-
-            padding: 32px 25px;
-
-            min-height: 365px;
-
+        /* Navigation */
+        .navbar {
+            min-height: 78px;
+            padding: 14px 6%;
             display: flex;
-
-            flex-direction: column;
-
             justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.78);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(16px);
+        }
 
-            text-align: center;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: clamp(16px, 2vw, 22px);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
 
+        .brand-icon {
+            width: 46px;
+            height: 46px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            color: white;
+            font-size: 25px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #638aff, #8051f4);
+            box-shadow: 0 8px 20px #638aff35;
+        }
+
+        .nav-label {
+            padding: 10px 15px;
+            border: 1px solid #dce7ff;
+            border-radius: 30px;
+            background: #f7f9ff;
+            color: #667da9;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Main hero */
+        .hero {
+            width: min(1250px, 90%);
+            margin: 48px auto 38px;
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            align-items: center;
+            gap: 45px;
+        }
+
+        .hero-content {
+            padding: 15px 0;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 10px 15px;
+            border: 1px solid #cbdcff;
+            border-radius: 30px;
+            color: #4267df;
+            background: #ffffffb8;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+        }
+
+        .eyebrow-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #f04470;
+            box-shadow: 0 0 0 4px #f044701a;
+        }
+
+        .hero h1 {
+            margin: 24px 0 18px;
+            font-size: clamp(39px, 5vw, 65px);
+            line-height: 1.08;
+            letter-spacing: -2.4px;
+            font-weight: 800;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #4f73f5, #9954ef, #ed4c8b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-description {
+            max-width: 540px;
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.9;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 13px;
+            margin-top: 27px;
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 48px;
+            padding: 0 21px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .primary-btn {
+            color: white;
+            background: linear-gradient(100deg, #5278f5, #8654f5);
+            box-shadow: 0 9px 22px #6579ee35;
+        }
+
+        .secondary-btn {
+            color: #4c66a2;
+            border: 1px solid #d6e3ff;
+            background: #ffffffbd;
+        }
+
+        .primary-btn:hover,
+        .secondary-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .primary-btn:hover {
+            box-shadow: 0 13px 25px #6579ee45;
+        }
+
+        /* Hero illustration */
+        .hero-art {
+            min-height: 355px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
+            border: 1px solid #dce8ff;
+            border-radius: 30px;
+            background:
+                radial-gradient(circle at 50% 40%, #ffffff 0, #e9f1ff 48%, #e4eaff 100%);
+            box-shadow: 0 22px 55px #5376b41a;
+        }
 
+        .art-orbit {
+            position: absolute;
+            width: 265px;
+            height: 265px;
+            border: 2px dashed #bdceff;
+            border-radius: 50%;
+            animation: rotate 28s linear infinite;
+        }
+
+        .art-orbit::before,
+        .art-orbit::after {
+            content: "";
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+        }
+
+        .art-orbit::before {
+            top: 35px;
+            right: 25px;
+            background: #ff7297;
+            box-shadow: 0 0 0 7px #ff72971c;
+        }
+
+        .art-orbit::after {
+            bottom: 30px;
+            left: 22px;
+            background: #6889ff;
+            box-shadow: 0 0 0 7px #6889ff20;
+        }
+
+        .art-center {
+            width: 190px;
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffffff, #dce9ff);
             box-shadow:
-                0 8px 30px rgba(16, 24, 40, 0.07);
+                0 20px 45px #5678c52b,
+                inset 0 0 0 1px #ffffff;
+            animation: float 4s ease-in-out infinite;
+        }
 
+        .art-emoji {
+            font-size: 103px;
+            filter: drop-shadow(0 12px 12px #5879b426);
+        }
+
+        .floating-card {
+            position: absolute;
+            padding: 13px 16px;
+            border: 1px solid #e0e9ff;
+            border-radius: 15px;
+            background: #ffffffeb;
+            box-shadow: 0 10px 25px #526da51b;
+            backdrop-filter: blur(10px);
+        }
+
+        .floating-card strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 12px;
+        }
+
+        .floating-card small {
+            color: #8393b5;
+            font-size: 10px;
+        }
+
+        .floating-top {
+            top: 24px;
+            left: 20px;
+        }
+
+        .floating-bottom {
+            right: 18px;
+            bottom: 24px;
+        }
+
+        .floating-symbol {
+            margin-right: 5px;
+        }
+
+        /* Statistics */
+        .stats {
+            width: min(1250px, 90%);
+            margin: 0 auto 42px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 17px;
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: #ffffffb8;
+            box-shadow: 0 8px 25px #526da50b;
+        }
+
+        .stat-icon {
+            width: 47px;
+            height: 47px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            border-radius: 15px;
+            font-size: 23px;
+        }
+
+        .stat-blue {
+            color: #5276ee;
+            background: #eaf0ff;
+        }
+
+        .stat-pink {
+            color: #ec4c78;
+            background: #fff0f4;
+        }
+
+        .stat-green {
+            color: #279b75;
+            background: #e8faf2;
+        }
+
+        .stat-card strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .stat-card p {
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        /* Prediction cards section */
+        .disease-section {
+            width: min(1250px, 90%);
+            margin: 0 auto;
+        }
+
+        .section-heading {
+            margin-bottom: 28px;
+            text-align: center;
+        }
+
+        .section-tag {
+            color: #657ce1;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.3px;
+        }
+
+        .section-heading h2 {
+            margin: 12px 0;
+            font-size: clamp(27px, 3.5vw, 38px);
+            letter-spacing: -1.2px;
+        }
+
+        .section-heading p {
+            max-width: 570px;
+            margin: 0 auto;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .disease-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .disease-card {
+            --accent: #5276ee;
+            --accent-dark: #3d60df;
+            --tint: #edf2ff;
+
+            position: relative;
+            min-width: 0;
+            min-height: 335px;
+            display: flex;
+            flex-direction: column;
+            padding: 26px;
+            overflow: hidden;
+            border: 1px solid #dce7fa;
+            border-radius: 23px;
+            background: rgba(255, 255, 255, 0.84);
+            box-shadow: 0 12px 32px #3f5f9910;
             transition:
                 transform 0.3s ease,
                 box-shadow 0.3s ease,
                 border-color 0.3s ease;
         }
 
-        .card:hover {
-            transform: translateY(-10px);
-
-            box-shadow:
-                0 20px 45px rgba(16, 24, 40, 0.13);
-
-            border-color: #d6dce5;
-        }
-
-
-        /* Top colored line */
-
-        .card::before {
+        .disease-card::before {
             content: "";
-
             position: absolute;
-
             top: 0;
             left: 0;
-
             width: 100%;
-
             height: 5px;
-
-            background: #087ff5;
+            background: linear-gradient(90deg, var(--accent), var(--accent-dark));
         }
 
-
-        /* ================= ICON ================= */
-
-        .icon {
-            width: 82px;
-
-            height: 82px;
-
-            margin: 5px auto 22px;
-
+        .disease-card::after {
+            content: "";
+            position: absolute;
+            top: 55px;
+            right: -50px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
+            background: var(--tint);
+            opacity: 0.7;
+            pointer-events: none;
+        }
 
+        .disease-card:hover {
+            transform: translateY(-8px);
+            border-color: #c6d7fa;
+            box-shadow: 0 22px 45px #3f5f991a;
+        }
+
+        .diabetes {
+            --accent: #f05268;
+            --accent-dark: #d92d49;
+            --tint: #fff0f2;
+        }
+
+        .heart {
+            --accent: #f04d83;
+            --accent-dark: #d92d65;
+            --tint: #fff0f6;
+        }
+
+        .liver {
+            --accent: #efa34e;
+            --accent-dark: #df8033;
+            --tint: #fff5e9;
+        }
+
+        .card-top {
+            position: relative;
+            z-index: 1;
             display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-size: 38px;
-
-            transition: transform 0.3s ease;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 21px;
         }
 
-        .card:hover .icon {
-            transform: scale(1.08);
+        .disease-icon {
+            width: 67px;
+            height: 67px;
+            display: grid;
+            place-items: center;
+            border: 1px solid #ffffff;
+            border-radius: 21px;
+            background: var(--tint);
+            font-size: 34px;
+            box-shadow: 0 8px 20px #40547e0c;
+            transition: transform 0.3s;
         }
 
+        .disease-card:hover .disease-icon {
+            transform: rotate(-5deg) scale(1.06);
+        }
 
-        /* ================= CONTENT ================= */
+        .card-number {
+            color: #9aabc8;
+            font-size: 12px;
+            font-weight: 700;
+        }
 
         .card-label {
-            display: inline-block;
-
-            padding: 5px 10px;
-
-            border-radius: 20px;
-
-            font-size: 11px;
-
-            font-weight: bold;
-
-            margin-bottom: 15px;
-
-            background: #f2f4f7;
-
-            color: #667085;
+            position: relative;
+            z-index: 1;
+            align-self: flex-start;
+            margin-bottom: 12px;
+            padding: 7px 10px;
+            border-radius: 30px;
+            color: var(--accent-dark);
+            background: var(--tint);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.4px;
         }
 
-        .card h2 {
+        .disease-card h3 {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 12px;
+            color: #20355f;
             font-size: 21px;
-
-            margin-bottom: 15px;
-
-            color: #172033;
+            letter-spacing: -0.5px;
         }
 
-        .card p {
-            font-size: 14.5px;
-
-            line-height: 1.7;
-
-            color: #667085;
-
-            margin-bottom: 25px;
-        }
-
-
-        /* ================= BUTTON ================= */
-
-        .card a {
-            text-decoration: none;
-        }
-
-        .card button {
-            width: 100%;
-
-            padding: 13px 18px;
-
-            border: none;
-
-            border-radius: 10px;
-
-            color: white;
-
-            font-size: 14px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-
-            transition:
-                transform 0.2s ease,
-                box-shadow 0.2s ease,
-                filter 0.2s ease;
-        }
-
-        .card button:hover {
-            transform: translateY(-2px);
-
-            filter: brightness(0.95);
-
-            box-shadow:
-                0 7px 18px rgba(0, 0, 0, 0.15);
-        }
-
-
-        /* ================= DIABETES ================= */
-
-        .diabetes::before {
-            background: #e63946;
-        }
-
-        .diabetes .icon {
-            background: #fff0f1;
-        }
-
-        .diabetes button {
-            background: linear-gradient(
-                135deg,
-                #e63946,
-                #d62839
-            );
-        }
-
-
-        /* ================= HEART ================= */
-
-        .heart::before {
-            background: #ef476f;
-        }
-
-        .heart .icon {
-            background: #fff0f4;
-        }
-
-        .heart button {
-            background: linear-gradient(
-                135deg,
-                #ef476f,
-                #e83e68
-            );
-        }
-
-
-        /* ================= LIVER ================= */
-
-        .liver::before {
-            background: #f4a261;
-        }
-
-        .liver .icon {
-            background: #fff6ed;
-        }
-
-        .liver button {
-            background: linear-gradient(
-                135deg,
-                #f4a261,
-                #e98b47
-            );
-        }
-
-
-        /* ================= FOOTER ================= */
-
-        .footer {
-            max-width: 1000px;
-
-            margin: 55px auto 0;
-
-            padding-top: 25px;
-
-            border-top: 1px solid #e4e7ec;
-
-            text-align: center;
-
-            color: #98a2b3;
-
+        .disease-card p {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            margin-bottom: 24px;
+            color: #7b8bae;
             font-size: 13px;
-
-            line-height: 1.7;
+            line-height: 1.8;
         }
 
-        .footer strong {
-            color: #475467;
+        .card-link {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            min-height: 48px;
+            padding: 0 16px;
+            border-radius: 12px;
+            color: white;
+            background: linear-gradient(100deg, var(--accent), var(--accent-dark));
+            box-shadow: 0 8px 18px color-mix(in srgb, var(--accent) 20%, transparent);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            transition: transform 0.2s, filter 0.2s;
         }
 
-        .footer .warning {
-            margin-top: 8px;
+        .card-link:hover {
+            transform: translateY(-2px);
+            filter: brightness(0.97);
         }
 
+        .arrow {
+            font-size: 18px;
+            transition: transform 0.2s;
+        }
 
-        /* ================= RESPONSIVE ================= */
+        .card-link:hover .arrow {
+            transform: translateX(4px);
+        }
 
-        @media (max-width: 900px) {
+        /* Informational note */
+        .info-panel {
+            width: min(1250px, 90%);
+            margin: 35px auto 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 20px;
+            border: 1px solid #dce7ff;
+            border-radius: 17px;
+            background: #ffffffa8;
+        }
 
-            .container {
-                grid-template-columns: repeat(2, 1fr);
+        .info-icon {
+            width: 39px;
+            height: 39px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            border-radius: 12px;
+            color: #4c70e7;
+            background: #eaf0ff;
+            font-size: 19px;
+        }
 
-                max-width: 700px;
+        .info-panel h3 {
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+
+        .info-panel p {
+            color: #7b8bae;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 45px;
+            padding: 25px 5%;
+            border-top: 1px solid #dfe8f8;
+            background: #ffffff60;
+            color: #8494b3;
+            text-align: center;
+            font-size: 11px;
+            line-height: 1.9;
+        }
+
+        footer strong {
+            color: #51678f;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
             }
 
-            .header h1 {
-                font-size: 38px;
+            50% {
+                transform: translateY(-11px);
             }
         }
 
-
-        @media (max-width: 600px) {
-
-            body {
-                padding: 35px 15px;
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
             }
 
-            .container {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Tablet */
+        @media (max-width: 950px) {
+            .hero {
                 grid-template-columns: 1fr;
-
-                max-width: 400px;
+                gap: 25px;
             }
 
-            .header {
+            .hero-content {
+                text-align: center;
+            }
+
+            .hero-description {
+                margin: 0 auto;
+            }
+
+            .hero-actions {
+                justify-content: center;
+            }
+
+            .hero-art {
+                min-height: 310px;
+            }
+
+            .disease-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .disease-card:last-child {
+                grid-column: 1 / -1;
+            }
+
+            .disease-card:last-child .card-link {
+                max-width: 100%;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 12px 5%;
+            }
+
+            .brand {
+                font-size: 15px;
+            }
+
+            .brand-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 22px;
+            }
+
+            .nav-label {
+                display: none;
+            }
+
+            .hero {
+                width: 90%;
+                margin-top: 28px;
+                gap: 20px;
+            }
+
+            .hero h1 {
+                font-size: 41px;
+                letter-spacing: -1.7px;
+            }
+
+            .hero-description {
+                font-size: 13px;
+            }
+
+            .hero-art {
+                min-height: 260px;
+                border-radius: 23px;
+            }
+
+            .art-center {
+                width: 150px;
+                height: 150px;
+            }
+
+            .art-emoji {
+                font-size: 82px;
+            }
+
+            .art-orbit {
+                width: 205px;
+                height: 205px;
+            }
+
+            .floating-card {
+                padding: 10px 12px;
+            }
+
+            .floating-top {
+                top: 14px;
+                left: 10px;
+            }
+
+            .floating-bottom {
+                right: 10px;
+                bottom: 14px;
+            }
+
+            .stats {
+                width: 90%;
+                grid-template-columns: 1fr;
+                gap: 10px;
                 margin-bottom: 35px;
             }
 
-            .header h1 {
-                font-size: 30px;
+            .stat-card {
+                padding: 14px;
             }
 
-            .header p {
-                font-size: 16px;
+            .disease-section {
+                width: 90%;
             }
 
-            .card {
-                min-height: 340px;
+            .section-heading {
+                margin-bottom: 23px;
+            }
+
+            .section-heading p {
+                font-size: 12px;
+            }
+
+            .disease-grid {
+                grid-template-columns: 1fr;
+                gap: 17px;
+            }
+
+            .disease-card,
+            .disease-card:last-child {
+                grid-column: auto;
+                min-height: 310px;
+                padding: 23px;
+            }
+
+            .info-panel {
+                width: 90%;
+                padding: 15px;
+            }
+
+            footer {
+                margin-top: 30px;
             }
         }
 
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
     </style>
-
 </head>
-
 
 <body>
 
-
-    <!-- ================= HEADER ================= -->
-
-    <header class="header">
-
-        <div class="badge">
-            🤖 AI POWERED HEALTH SYSTEM
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="brand">
+            <div class="brand-icon">✚</div>
+            <span>HealthPredict AI</span>
         </div>
 
-        <h1>
-            Early <span>Disease Prediction</span> System
-        </h1>
+        <div class="nav-label">
+            ✦ &nbsp; AI POWERED HEALTH SYSTEM
+        </div>
+    </nav>
 
-        <p>
-            A machine learning based system designed to
-            predict disease risk using patient health
-            parameters and trained prediction models.
-        </p>
+    <!-- Hero Section -->
+    <header class="hero">
 
-        <div class="header-line"></div>
+        <div class="hero-content">
+            <div class="eyebrow">
+                <span class="eyebrow-dot"></span>
+                SMART HEALTH ANALYSIS
+            </div>
+
+            <h1>
+                Your Health,<br>
+                <span class="gradient-text">Our Priority.</span>
+            </h1>
+
+            <p class="hero-description">
+                Explore a machine-learning-based disease prediction
+                system. Select a health assessment, enter the required
+                information, and view the model's prediction.
+            </p>
+
+            <div class="hero-actions">
+                <a href="#predictions" class="primary-btn">
+                    Explore Predictions <span>→</span>
+                </a>
+
+                <a href="#about" class="secondary-btn">
+                    Learn More
+                </a>
+            </div>
+        </div>
+
+        <!-- Decorative medical illustration -->
+        <div class="hero-art">
+            <div class="art-orbit"></div>
+
+            <div class="art-center">
+                <span class="art-emoji" aria-hidden="true">🩺</span>
+            </div>
+
+            <div class="floating-card floating-top">
+                <strong><span class="floating-symbol">💗</span> Heart Health</strong>
+                <small>Cardiovascular assessment</small>
+            </div>
+
+            <div class="floating-card floating-bottom">
+                <strong><span class="floating-symbol">🧬</span> Smart Analysis</strong>
+                <small>Machine learning models</small>
+            </div>
+        </div>
 
     </header>
 
+    <!-- Highlights -->
+    <section class="stats" aria-label="System highlights">
 
-    <!-- ================= DISEASE CARDS ================= -->
-
-    <main class="container">
-
-
-        <!-- ================= DIABETES ================= -->
-
-        <div class="card diabetes">
-
+        <div class="stat-card">
+            <div class="stat-icon stat-blue">✦</div>
             <div>
+                <strong>Machine Learning</strong>
+                <p>Model-based predictions</p>
+            </div>
+        </div>
 
-                <div class="icon">
-                    🩸
+        <div class="stat-card">
+            <div class="stat-icon stat-pink">♡</div>
+            <div>
+                <strong>Three Assessments</strong>
+                <p>Diabetes, heart, and liver</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon stat-green">⌁</div>
+            <div>
+                <strong>Simple Interface</strong>
+                <p>Easy-to-follow input forms</p>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Disease Prediction Cards -->
+    <main class="disease-section" id="predictions">
+
+        <div class="section-heading">
+            <span class="section-tag">CHOOSE YOUR ASSESSMENT</span>
+
+            <h2>
+                Explore Our <span class="gradient-text">Health Tools</span>
+            </h2>
+
+            <p>
+                Choose one of the following assessments to continue
+                to its dedicated prediction form.
+            </p>
+        </div>
+
+        <div class="disease-grid">
+
+            <!-- Diabetes -->
+            <article class="disease-card diabetes">
+
+                <div class="card-top">
+                    <div class="disease-icon">🩸</div>
+                    <span class="card-number">01 / 03</span>
                 </div>
 
-                <span class="card-label">
-                    METABOLIC HEALTH
-                </span>
+                <span class="card-label">METABOLIC HEALTH</span>
 
-                <h2>
-                    Diabetes Prediction
-                </h2>
+                <h3>Diabetes Prediction</h3>
 
                 <p>
-                    Enter health parameters to predict
-                    diabetes risk using the trained
+                    Enter the required health parameters to obtain
+                    a diabetes risk prediction from the trained
                     machine learning model.
                 </p>
 
-            </div>
+                <a href="/diabetes" class="card-link">
+                    <span>Check Diabetes Risk</span>
+                    <span class="arrow">→</span>
+                </a>
 
-            <a href="/diabetes">
+            </article>
 
-                <button>
-                    Check Diabetes Risk →
-                </button>
+            <!-- Heart -->
+            <article class="disease-card heart">
 
-            </a>
-
-        </div>
-
-
-        <!-- ================= HEART ================= -->
-
-        <div class="card heart">
-
-            <div>
-
-                <div class="icon">
-                    ❤️
+                <div class="card-top">
+                    <div class="disease-icon">❤️</div>
+                    <span class="card-number">02 / 03</span>
                 </div>
 
-                <span class="card-label">
-                    CARDIOVASCULAR HEALTH
-                </span>
+                <span class="card-label">CARDIOVASCULAR HEALTH</span>
 
-                <h2>
-                    Heart Disease Prediction
-                </h2>
+                <h3>Heart Disease Prediction</h3>
 
                 <p>
-                    Enter cardiovascular health parameters
-                    to predict heart disease risk using the
-                    trained machine learning model.
+                    Provide cardiovascular health information to
+                    obtain a heart disease risk prediction from
+                    the trained model.
                 </p>
 
-            </div>
+                <a href="/heart" class="card-link">
+                    <span>Check Heart Risk</span>
+                    <span class="arrow">→</span>
+                </a>
 
-            <a href="/heart">
+            </article>
 
-                <button>
-                    Check Heart Risk →
-                </button>
+            <!-- Liver -->
+            <article class="disease-card liver">
 
-            </a>
-
-        </div>
-
-
-        <!-- ================= LIVER ================= -->
-
-        <div class="card liver">
-
-            <div>
-
-                <div class="icon">
-                    🩺
+                <div class="card-top">
+                    <div class="disease-icon">🩺</div>
+                    <span class="card-number">03 / 03</span>
                 </div>
 
-                <span class="card-label">
-                    LIVER HEALTH
-                </span>
+                <span class="card-label">LIVER HEALTH</span>
 
-                <h2>
-                    Liver Disease Prediction
-                </h2>
+                <h3>Liver Disease Prediction</h3>
 
                 <p>
-                    Enter liver-related health parameters
-                    to predict liver disease risk using
-                    the trained machine learning model.
+                    Enter the relevant liver health parameters
+                    to obtain a prediction using the trained
+                    machine learning model.
                 </p>
 
-            </div>
+                <a href="/liver" class="card-link">
+                    <span>Check Liver Risk</span>
+                    <span class="arrow">→</span>
+                </a>
 
-            <a href="/liver">
-
-                <button>
-                    Check Liver Risk →
-                </button>
-
-            </a>
+            </article>
 
         </div>
-
-
     </main>
 
+    <!-- Information and disclaimer -->
+    <section class="info-panel" id="about">
+        <div class="info-icon">ⓘ</div>
 
-    <!-- ================= FOOTER ================= -->
+        <div>
+            <h3>About This Project</h3>
+            <p>
+                This interface connects users to disease prediction
+                forms powered by machine learning models. The accuracy
+                and reliability of each prediction depend on the
+                underlying model and input data.
+                Results are informational only and must not be used
+                as a substitute for professional medical advice,
+                diagnosis, or treatment.
+            </p>
+        </div>
+    </section>
 
-    <footer class="footer">
+    <!-- Footer -->
+    <footer>
+        <p>
+            <strong>HealthPredict AI</strong>
+            &nbsp; | &nbsp; Early Disease Prediction System
+        </p>
 
         <p>
-            <strong>Early Disease Prediction System</strong>
-            &nbsp;|&nbsp;
-            Machine Learning Project
+            Machine Learning Project &copy; 2026
         </p>
 
-        <p class="warning">
-            ⚠️ Prediction results are for informational
-            purposes only and are not a medical diagnosis.
+        <p>
+            ⚠️ For educational and informational purposes only.
+            Consult a qualified healthcare professional for medical concerns.
         </p>
-
     </footer>
 
-
 </body>
-
 </html>

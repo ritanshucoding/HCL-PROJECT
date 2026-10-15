@@ -1,261 +1,868 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Cardiovascular Disease Prediction</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         * {
             box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #fff1f3, #f4f6f8);
             margin: 0;
             padding: 0;
         }
 
+        body {
+            min-height: 100vh;
+            font-family: 'Inter', Arial, sans-serif;
+            color: #142d66;
+            background:
+                radial-gradient(circle at 8% 15%, #dceeff 0, transparent 30%),
+                radial-gradient(circle at 92% 75%, #f5e2ff 0, transparent 30%),
+                linear-gradient(135deg, #f5faff, #eaf2ff);
+        }
+
+        /* Header */
+        .navbar {
+            min-height: 78px;
+            padding: 16px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.72);
+            border-bottom: 1px solid #dce9ff;
+            backdrop-filter: blur(16px);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: clamp(17px, 2.2vw, 27px);
+            font-weight: 800;
+            color: #142d66;
+        }
+
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            color: white;
+            font-size: 26px;
+            background: linear-gradient(135deg, #ff527a, #f02d5b);
+            box-shadow: 0 8px 18px #f0447040;
+        }
+
+        .nav-note {
+            color: #7185b1;
+            font-size: 13px;
+        }
+
+        /* Main page layout */
         .container {
-            width: 700px;
-            max-width: 92%;
-            margin: 40px auto;
-            background: white;
-            padding: 35px;
+            width: min(1450px, 94%);
+            margin: 32px auto;
+            display: grid;
+            grid-template-columns: 0.85fr 1.15fr;
+            align-items: start;
+            gap: 32px;
+        }
+
+        /* Left hero section */
+        .hero {
+            padding: 28px 8px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 10px 16px;
+            border: 1px solid #b9d6ff;
+            border-radius: 30px;
+            color: #2865e8;
+            background: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .eyebrow span {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #ff4777;
+        }
+
+        .hero h1 {
+            margin: 24px 0 18px;
+            font-size: clamp(40px, 4.2vw, 64px);
+            line-height: 1.07;
+            letter-spacing: -2px;
+            font-weight: 800;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #f04470, #526cff, #a14dff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .description {
+            max-width: 480px;
+            color: #7185b1;
+            font-size: 16px;
+            line-height: 1.9;
+        }
+
+        .feature-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .feature-icon {
+            width: 46px;
+            height: 46px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            color: white;
+            font-size: 22px;
+            box-shadow: 0 8px 20px #567cff25;
+        }
+
+        .pink {
+            background: linear-gradient(135deg, #ff6686, #f12e61);
+        }
+
+        .purple {
+            background: linear-gradient(135deg, #9270ff, #5543ed);
+        }
+
+        .green {
+            background: linear-gradient(135deg, #7bdc98, #30a967);
+        }
+
+        .heart-art {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+            margin-top: 28px;
+            overflow: hidden;
+            border-radius: 30px;
+            background:
+                radial-gradient(circle at 50% 50%, #d5eaff 0, #eaf4ff 42%, transparent 72%);
+        }
+
+        .heart-emoji {
+            font-size: clamp(110px, 14vw, 190px);
+            filter: drop-shadow(0 18px 15px #4d7acb35);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .heart-orbit {
+            position: absolute;
+            width: 230px;
+            height: 230px;
+            border: 2px dashed #a9caff;
+            border-radius: 50%;
+            animation: rotate 24s linear infinite;
+        }
+
+        .orbit-dot {
+            position: absolute;
+            top: 15px;
+            left: 38px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #5e88ff;
+            box-shadow: 0 0 0 8px #5e88ff20;
+        }
+
+        .heart-caption {
+            position: absolute;
+            bottom: 20px;
+            right: 12px;
+            padding: 12px 16px;
+            border: 1px solid #d7e7ff;
             border-radius: 15px;
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.10);
+            color: #4568b3;
+            background: #ffffffd9;
+            font-size: 12px;
+            line-height: 1.6;
+            box-shadow: 0 8px 20px #4568b315;
         }
 
-        h1 {
-            text-align: center;
-            color: #222;
-            margin-bottom: 10px;
+        .benefits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 24px;
         }
 
-        .subtitle {
+        .benefit {
+            flex: 1;
+            min-width: 115px;
+            padding: 13px;
             text-align: center;
-            color: #666;
-            margin-bottom: 30px;
+            border: 1px solid #dce9ff;
+            border-radius: 14px;
+            background: #ffffffa6;
+            color: #617ba9;
+            font-size: 11px;
+        }
+
+        .benefit strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #24477e;
+            font-size: 13px;
+        }
+
+        /* Form card */
+        .form-card {
+            min-width: 0;
+            padding: clamp(18px, 2.5vw, 32px);
+            border: 1px solid #d7e8ff;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 0 22px 60px rgba(54, 101, 180, 0.13);
+            backdrop-filter: blur(18px);
+        }
+
+        .form-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e3edff;
+        }
+
+        .form-header-icon {
+            width: 58px;
+            height: 58px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            border-radius: 19px;
+            color: white;
+            font-size: 28px;
+            background: linear-gradient(135deg, #64b5ff, #7650f6);
+            box-shadow: 0 9px 22px #735bfa35;
+        }
+
+        .form-header h2 {
+            margin-bottom: 7px;
+            font-size: clamp(21px, 2.4vw, 30px);
+            letter-spacing: -0.7px;
+        }
+
+        .form-header p {
+            color: #7a8eb6;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 13px;
         }
 
         .form-group {
-            margin-bottom: 18px;
+            min-width: 0;
+            padding: 13px;
+            border: 1px solid #dceaff;
+            border-radius: 15px;
+            background: linear-gradient(145deg, #ffffff, #f5f9ff);
+            transition: transform 0.2s ease, box-shadow 0.2s ease,
+                        border-color 0.2s ease;
         }
 
-        label {
+        .form-group:hover,
+        .form-group:focus-within {
+            transform: translateY(-2px);
+            border-color: #9fc4ff;
+            box-shadow: 0 8px 20px #427aff15;
+        }
+
+        .form-group label {
             display: block;
-            margin-bottom: 7px;
-            font-weight: bold;
-            color: #333;
+            margin-bottom: 9px;
+            color: #203b73;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .input-icon {
+            margin-right: 6px;
+            font-size: 15px;
         }
 
         input,
         select {
+            display: block;
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 7px;
-            font-size: 15px;
+            min-width: 0;
+            height: 40px;
+            padding: 0 11px;
+            border: 1px solid #d9e6fb;
+            border-radius: 10px;
+            outline: none;
+            color: #294775;
+            background: #fff;
+            font-family: inherit;
+            font-size: 13px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input::placeholder {
+            color: #9aaed0;
         }
 
         input:focus,
         select:focus {
-            outline: none;
-            border-color: #ef476f;
+            border-color: #5786ff;
+            box-shadow: 0 0 0 3px #5786ff16;
         }
 
-        button {
-            width: 100%;
-            padding: 14px;
-            background-color: #ef476f;
-            color: white;
-            border: none;
-            border-radius: 7px;
-            font-size: 17px;
-            font-weight: bold;
+        select {
             cursor: pointer;
-            margin-top: 10px;
         }
 
-        button:hover {
-            background-color: #d9365f;
+        .submit-btn {
+            grid-column: 1 / -1;
+            width: 100%;
+            min-height: 49px;
+            margin-top: 3px;
+            border: none;
+            border-radius: 13px;
+            color: white;
+            background: linear-gradient(100deg, #f04470, #b447ed, #8055ff);
+            box-shadow: 0 9px 20px #9c52ed30;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 13px 25px #9c52ed40;
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Results and errors */
+        .result,
+        .error {
+            grid-column: 1 / -1;
+            padding: 18px;
+            border-radius: 15px;
+            overflow-wrap: anywhere;
         }
 
         .result {
-            margin-top: 25px;
-            padding: 18px;
-            text-align: center;
-            border-radius: 8px;
-            background-color: #f1f1f1;
-            color: #222;
+            border: 1px solid #cde3ff;
+            color: #203b73;
+            background: linear-gradient(120deg, #eef7ff, #f3edff);
         }
 
-        .result h2 {
-            margin: 0;
+        .result h3 {
+            margin-bottom: 8px;
+            color: #2452a0;
+            font-size: 17px;
+        }
+
+        .result p {
+            font-size: 14px;
+            line-height: 1.7;
         }
 
         .error {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #ffe5e5;
-            color: #c62828;
-            border-radius: 8px;
+            border: 1px solid #ffcaca;
+            color: #a72b43;
+            background: #fff1f2;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .disclaimer {
+            margin-top: 18px;
+            padding: 13px;
+            border-radius: 12px;
+            color: #7487ad;
+            background: #f5f8ff;
+            font-size: 11px;
+            line-height: 1.7;
             text-align: center;
         }
 
-        .back {
-            display: block;
+        /* Footer */
+        footer {
+            padding: 10px 5% 25px;
+            color: #8193b7;
             text-align: center;
-            margin-top: 25px;
-            text-decoration: none;
-            color: #007bff;
-            font-weight: bold;
+            font-size: 12px;
+            line-height: 1.8;
         }
 
-        .back:hover {
-            text-decoration: underline;
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Tablet and mobile */
+        @media (max-width: 1000px) {
+            .container {
+                grid-template-columns: 1fr;
+                max-width: 760px;
+            }
+
+            .hero {
+                padding: 15px 5px;
+            }
+
+            .hero h1 {
+                font-size: clamp(40px, 7vw, 58px);
+            }
+
+            .description {
+                max-width: 600px;
+            }
+
+            .heart-art {
+                min-height: 250px;
+            }
+
+            .heart-emoji {
+                font-size: 145px;
+            }
+
+            .heart-orbit {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .navbar {
+                padding: 13px 4%;
+            }
+
+            .brand {
+                font-size: 16px;
+                gap: 9px;
+            }
+
+            .brand-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 13px;
+                font-size: 22px;
+            }
+
+            .nav-note {
+                display: none;
+            }
+
+            .container {
+                width: 94%;
+                margin: 18px auto;
+                gap: 20px;
+            }
+
+            .hero h1 {
+                font-size: 41px;
+                letter-spacing: -1.5px;
+            }
+
+            .description {
+                font-size: 14px;
+            }
+
+            .feature-list {
+                gap: 12px;
+            }
+
+            .feature {
+                font-size: 11px;
+            }
+
+            .feature-icon {
+                width: 38px;
+                height: 38px;
+            }
+
+            .form-card {
+                padding: 16px;
+                border-radius: 19px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 11px;
+            }
+
+            .form-header-icon {
+                width: 47px;
+                height: 47px;
+                border-radius: 15px;
+                font-size: 23px;
+            }
+
+            .form-header h2 {
+                font-size: 22px;
+            }
+
+            .submit-btn {
+                grid-column: 1;
+            }
+
+            .result,
+            .error {
+                grid-column: 1;
+            }
+
+            .benefits {
+                gap: 8px;
+            }
+
+            .benefit {
+                min-width: 95px;
+                padding: 10px 5px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="container">
-
-        <h1>❤️ Cardiovascular Disease Prediction</h1>
-
-        <p class="subtitle">
-            Enter the patient's health information
-        </p>
-
-        <form action="/heart" method="POST">
-
-            <!-- ID -->
-            <div class="form-group">
-                <label>Patient ID</label>
-                <input type="number" name="id" placeholder="Example: 1001" required>
-            </div>
-
-            <!-- Age -->
-            <div class="form-group">
-                <label>Age</label>
-                <input type="number" name="age" placeholder="Enter age" required>
-            </div>
-
-            <!-- Gender -->
-            <div class="form-group">
-                <label>Gender</label>
-                <select name="gender" required>
-                    <option value="">Select</option>
-                    <option value="1">Female</option>
-                    <option value="2">Male</option>
-                </select>
-            </div>
-
-            <!-- Height -->
-            <div class="form-group">
-                <label>Height (cm)</label>
-                <input type="number" name="height" placeholder="Example: 170" required>
-            </div>
-
-            <!-- Weight -->
-            <div class="form-group">
-                <label>Weight (kg)</label>
-                <input type="number" step="0.1" name="weight" placeholder="Example: 75" required>
-            </div>
-
-            <!-- Systolic BP -->
-            <div class="form-group">
-                <label>Systolic Blood Pressure</label>
-                <input type="number" name="ap_hi" placeholder="Example: 120" required>
-            </div>
-
-            <!-- Diastolic BP -->
-            <div class="form-group">
-                <label>Diastolic Blood Pressure</label>
-                <input type="number" name="ap_lo" placeholder="Example: 80" required>
-            </div>
-
-            <!-- Cholesterol -->
-            <div class="form-group">
-                <label>Cholesterol</label>
-                <select name="cholesterol" required>
-                    <option value="">Select</option>
-                    <option value="1">Normal</option>
-                    <option value="2">Above Normal</option>
-                    <option value="3">Well Above Normal</option>
-                </select>
-            </div>
-
-            <!-- Glucose -->
-            <div class="form-group">
-                <label>Glucose</label>
-                <select name="gluc" required>
-                    <option value="">Select</option>
-                    <option value="1">Normal</option>
-                    <option value="2">Above Normal</option>
-                    <option value="3">Well Above Normal</option>
-                </select>
-            </div>
-
-            <!-- Smoking -->
-            <div class="form-group">
-                <label>Smoking</label>
-                <select name="smoke" required>
-                    <option value="">Select</option>
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
-                </select>
-            </div>
-
-            <!-- Alcohol -->
-            <div class="form-group">
-                <label>Alcohol Consumption</label>
-                <select name="alco" required>
-                    <option value="">Select</option>
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
-                </select>
-            </div>
-
-            <!-- Physical Activity -->
-            <div class="form-group">
-                <label>Physical Activity</label>
-                <select name="active" required>
-                    <option value="">Select</option>
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
-                </select>
-            </div>
-
-            <button type="submit">
-                Predict Heart Risk
-            </button>
-
-        </form>
-
-        {% if prediction %}
-        <div class="result">
-            <h2>{{ prediction }}</h2>
+    <!-- Header -->
+    <header class="navbar">
+        <div class="brand">
+            <div class="brand-icon">♥</div>
+            <span>Cardiovascular Disease Prediction</span>
         </div>
-        {% endif %}
+        <div class="nav-note">Better Insights &nbsp; → &nbsp; Healthier Tomorrow</div>
+    </header>
 
-        {% if error %}
-        <div class="error">
-            <strong>Error:</strong>
-            <p>{{ error }}</p>
-        </div>
-        {% endif %}
+    <main class="container">
 
-        <a href="/" class="back">
-            ← Back to Home
-        </a>
+        <!-- Left hero section -->
+        <section class="hero">
+            <div class="eyebrow">
+                <span></span>
+                AI POWERED HEALTH CHECK
+            </div>
 
-    </div>
+            <h1>
+                Know Your<br>
+                <span class="gradient-text">Heart Health</span>
+            </h1>
+
+            <p class="description">
+                Enter the patient's health details and get an early
+                prediction about cardiovascular disease risk.
+                Healthier heart, brighter future!
+            </p>
+
+            <div class="feature-list">
+                <div class="feature">
+                    <div class="feature-icon pink">♥</div>
+                    <span>Quick<br>& Easy</span>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon purple">✧</div>
+                    <span>AI<br>Analysis</span>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon green">♧</div>
+                    <span>Better<br>Health</span>
+                </div>
+            </div>
+
+            <div class="heart-art" aria-label="Heart health illustration">
+                <div class="heart-orbit">
+                    <div class="orbit-dot"></div>
+                </div>
+                <div class="heart-emoji" aria-hidden="true">🫀</div>
+                <div class="heart-caption">
+                    A healthy heart<br>
+                    builds a healthier you ♥
+                </div>
+            </div>
+
+            <div class="benefits">
+                <div class="benefit">
+                    <strong>♥ Healthy Heart</strong>
+                    Care for your heart
+                </div>
+                <div class="benefit">
+                    <strong>✧ Better Awareness</strong>
+                    Understand risk factors
+                </div>
+                <div class="benefit">
+                    <strong>♧ Healthy Lifestyle</strong>
+                    Build better habits
+                </div>
+            </div>
+        </section>
+
+        <!-- Right prediction form -->
+        <section class="form-card">
+            <div class="form-header">
+                <div class="form-header-icon">▤</div>
+                <div>
+                    <h2>Fill in your Details</h2>
+                    <p>Provide the following health information</p>
+                </div>
+            </div>
+
+            <form action="/heart" method="POST" class="form-grid">
+
+                <div class="form-group">
+                    <label for="id">
+                        <span class="input-icon">♙</span> Patient ID
+                    </label>
+                    <input
+                        type="number"
+                        id="id"
+                        name="id"
+                        placeholder="Example: 1001"
+                        min="0"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="age">
+                        <span class="input-icon">▦</span> Age
+                    </label>
+                    <input
+                        type="number"
+                        id="age"
+                        name="age"
+                        placeholder="Enter age"
+                        min="1"
+                        max="120"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">
+                        <span class="input-icon">⚥</span> Gender
+                    </label>
+                    <select id="gender" name="gender" required>
+                        <option value="" disabled selected>Select</option>
+                        <option value="1">Female (1)</option>
+                        <option value="2">Male (2)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="height">
+                        <span class="input-icon">↕</span> Height (cm)
+                    </label>
+                    <input
+                        type="number"
+                        id="height"
+                        name="height"
+                        placeholder="Example: 170"
+                        min="50"
+                        max="250"
+                        step="any"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="weight">
+                        <span class="input-icon">⚖</span> Weight (kg)
+                    </label>
+                    <input
+                        type="number"
+                        id="weight"
+                        name="weight"
+                        placeholder="Example: 75"
+                        min="1"
+                        max="500"
+                        step="any"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="ap_hi">
+                        <span class="input-icon">♥</span>
+                        Systolic Blood Pressure
+                    </label>
+                    <input
+                        type="number"
+                        id="ap_hi"
+                        name="ap_hi"
+                        placeholder="Example: 120"
+                        min="1"
+                        step="any"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="ap_lo">
+                        <span class="input-icon">♟</span>
+                        Diastolic Blood Pressure
+                    </label>
+                    <input
+                        type="number"
+                        id="ap_lo"
+                        name="ap_lo"
+                        placeholder="Example: 80"
+                        min="1"
+                        step="any"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="cholesterol">
+                        <span class="input-icon">●</span> Cholesterol
+                    </label>
+                    <select id="cholesterol" name="cholesterol" required>
+                        <option value="" disabled selected>Select</option>
+                        <option value="1">Normal (1)</option>
+                        <option value="2">Above Normal (2)</option>
+                        <option value="3">Well Above Normal (3)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="gluc">
+                        <span class="input-icon">◇</span> Glucose
+                    </label>
+                    <select id="gluc" name="gluc" required>
+                        <option value="" disabled selected>Select</option>
+                        <option value="1">Normal (1)</option>
+                        <option value="2">Above Normal (2)</option>
+                        <option value="3">Well Above Normal (3)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="smoke">
+                        <span class="input-icon">♨</span> Smoking
+                    </label>
+                    <select id="smoke" name="smoke" required>
+                        <option value="" disabled selected>Select</option>
+                        <option value="0">No (0)</option>
+                        <option value="1">Yes (1)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="alco">
+                        <span class="input-icon">♧</span> Alcohol Consumption
+                    </label>
+                    <select id="alco" name="alco" required>
+                        <option value="" disabled selected>Select</option>
+                        <option value="0">No (0)</option>
+                        <option value="1">Yes (1)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="active">
+                        <span class="input-icon">⚡</span> Physical Activity
+                    </label>
+                    <select id="active" name="active" required>
+                        <option value="" disabled selected>Select</option>
+                        <option value="0">No (0)</option>
+                        <option value="1">Yes (1)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    ✨ &nbsp; Predict Heart Risk &nbsp; →
+                </button>
+
+                <!-- Prediction result -->
+                {% if prediction is defined and prediction is not none %}
+                    <div class="result" role="status">
+                        <h3>♥ Prediction Result</h3>
+                        <p>{{ prediction }}</p>
+                    </div>
+                {% endif %}
+
+                <!-- Error message -->
+                {% if error is defined and error %}
+                    <div class="error" role="alert">
+                        <strong>Something went wrong</strong>
+                        <p>{{ error }}</p>
+                    </div>
+                {% endif %}
+
+            </form>
+
+            <div class="disclaimer">
+                <strong>Important:</strong> This tool is for educational
+                purposes only. Its prediction is not a medical diagnosis
+                and does not replace advice from a qualified healthcare
+                professional.
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        ♥ &nbsp; Your health matters. Make informed choices and consult
+        a healthcare professional about concerns.
+        <br>
+        Cardiovascular Disease Prediction &copy; 2026
+    </footer>
 
 </body>
-
 </html>

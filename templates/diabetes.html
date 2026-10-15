@@ -1,46 +1,991 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diabetes Risk Prediction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet">
+      <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue: #3978ff;
+            --purple: #8b5cf6;
+            --navy: #102d68;
+            --muted: #6880ae;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            color: var(--navy);
+            background:
+                radial-gradient(circle at 10% 20%, #dceeff 0, transparent 30%),
+                radial-gradient(circle at 90% 85%, #e0eaff 0, transparent 35%),
+                linear-gradient(135deg, #f8fbff, #edf5ff);
+            overflow-x: hidden;
+        }
+
+        /* Background decoration */
+
+        .bubble {
+            position: fixed;
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .bubble.one {
+            width: 230px;
+            height: 230px;
+            background: linear-gradient(135deg, #d8eaff, #eaf4ff);
+            left: -140px;
+            top: 35%;
+        }
+
+        .bubble.two {
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(135deg, #c9dcff, #e9e6ff);
+            right: -100px;
+            bottom: -40px;
+        }
+
+        /* Navigation */
+
+        nav {
+            min-height: 82px;
+            padding: 18px 4.5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            background: #ffffffa8;
+            border-bottom: 1px solid #dce9ff;
+            backdrop-filter: blur(18px);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: clamp(17px, 2vw, 25px);
+            font-weight: 800;
+            letter-spacing: -0.8px;
+        }
+
+        .brand-icon {
+            width: 47px;
+            height: 47px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            font-size: 27px;
+            color: white;
+            background: linear-gradient(145deg, #4389ff, #7359f8);
+            box-shadow: 0 8px 20px #5687ff40;
+        }
+
+        .nav-right {
+            color: #6079ab;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* Main layout */
+
+        .container {
+            width: min(1450px, 100%);
+            margin: auto;
+            padding: 35px 4.5% 25px;
+            display: grid;
+            grid-template-columns: 0.85fr 1.15fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        /* Hero */
+
+        .hero {
+            padding: 10px 0;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 11px 17px;
+            border: 1px solid #b8d9ff;
+            border-radius: 30px;
+            color: #2765db;
+            background: #ffffffa8;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .tag-dot {
+            width: 9px;
+            height: 9px;
+            background: #4bcce9;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #4bcce9;
+        }
+
+        h1 {
+            font-size: clamp(38px, 4.3vw, 62px);
+            line-height: 1.12;
+            letter-spacing: -2.8px;
+            margin-bottom: 20px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(100deg, #347dff, #9b56ed);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .description {
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.9;
+            max-width: 440px;
+        }
+
+        /* Benefits */
+
+        .benefits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 23px;
+            margin-top: 30px;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+
+        .benefit-icon {
+            width: 47px;
+            height: 47px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            color: white;
+            border-radius: 50%;
+            font-size: 22px;
+            box-shadow: 0 7px 15px #7d9fe82b;
+        }
+
+        .green { background: linear-gradient(135deg, #52d5a4, #21aa8d); }
+        .violet { background: linear-gradient(135deg, #a27aff, #6c43f5); }
+        .pink { background: linear-gradient(135deg, #ff7e9f, #f34875); }
+
+        /* CSS 3D medical illustration */
+
+        .scene {
+            position: relative;
+            height: 310px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 900px;
+        }
+
+        .scene-bg {
+            position: absolute;
+            width: 88%;
+            height: 230px;
+            bottom: 10px;
+            border-radius: 50% 50% 25% 25%;
+            background: linear-gradient(140deg, #c8e6ff, #a9caff 60%, #e0d7ff);
+            transform: rotateX(5deg);
+            box-shadow: 0 25px 45px #78a6e72a;
+        }
+
+        .medical-device {
+            position: relative;
+            z-index: 2;
+            width: 180px;
+            padding: 20px 17px;
+            border: 3px solid #8cbaff;
+            border-radius: 32px;
+            background: linear-gradient(145deg, #eff7ff, #b6d7ff);
+            box-shadow:
+                12px 18px 28px #315fae40,
+                inset 4px 4px 8px #ffffff;
+            transform: rotateY(-12deg) rotateX(5deg);
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .device-screen {
+            padding: 17px 5px;
+            border-radius: 17px;
+            text-align: center;
+            color: #253a61;
+            background: linear-gradient(145deg, #f4f8ff, #cbdaf3);
+            box-shadow: inset 0 3px 8px #5575a532;
+        }
+
+        .device-screen .reading {
+            font-size: 35px;
+            font-weight: 800;
+            letter-spacing: -2px;
+        }
+
+        .device-screen small {
+            display: block;
+            font-size: 11px;
+            margin-top: 3px;
+        }
+
+        .device-drop {
+            text-align: center;
+            font-size: 29px;
+            margin-top: 13px;
+        }
+
+        .clipboard {
+            position: absolute;
+            z-index: 1;
+            width: 155px;
+            height: 215px;
+            padding: 35px 17px 15px;
+            right: 3%;
+            bottom: 35px;
+            border-radius: 17px;
+            border: 4px solid #8cb7ff;
+            background: linear-gradient(145deg, #fff, #e5eeff);
+            box-shadow: 10px 15px 22px #557bb52c;
+            transform: rotate(7deg);
+        }
+
+        .clip {
+            position: absolute;
+            top: -9px;
+            left: 37px;
+            width: 72px;
+            height: 22px;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #4589ff, #7baaff);
+            box-shadow: 0 4px 7px #4275cc55;
+        }
+
+        .clip-heart {
+            font-size: 40px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .clip-line {
+            height: 7px;
+            margin: 10px 0;
+            border-radius: 10px;
+            background: #d8e5ff;
+        }
+
+        .clip-line:nth-child(3) { width: 80%; }
+        .clip-line:nth-child(4) { width: 60%; }
+
+        .plant {
+            position: absolute;
+            left: 0;
+            bottom: 18px;
+            z-index: 3;
+            font-size: 64px;
+            filter: drop-shadow(3px 8px 5px #315d3330);
+            animation: sway 4s ease-in-out infinite;
+        }
+
+        .floating-note {
+            position: absolute;
+            z-index: 4;
+            padding: 13px 16px;
+            border: 1px solid white;
+            border-radius: 17px;
+            background: #ffffffdc;
+            box-shadow: 0 10px 25px #557bb51e;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .note-left {
+            top: 24px;
+            left: 0;
+            color: #3978ff;
+            transform: rotate(-5deg);
+        }
+
+        .note-right {
+            top: 30px;
+            right: 0;
+            color: #7655ed;
+            transform: rotate(5deg);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateY(-12deg); }
+            50% { transform: translateY(-10px) rotateY(-5deg); }
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: rotate(-4deg); }
+            50% { transform: rotate(4deg); }
+        }
+
+        /* Form card */
+
+        .form-card {
+            padding: 25px;
+            border-radius: 28px;
+            border: 1px solid #d6e6ff;
+            background: #ffffffd9;
+            backdrop-filter: blur(22px);
+            box-shadow:
+                0 22px 65px #5d83c51b,
+                inset 0 1px 2px white;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .form-card:hover {
+            box-shadow: 0 28px 75px #5d83c529;
+        }
+
+        .form-header {
+            display: flex;
+            align-items: center;
+            gap: 17px;
+            padding: 17px;
+            margin-bottom: 24px;
+            border-radius: 20px;
+            background: linear-gradient(120deg, #f0f6ff, #f5f3ff);
+        }
+
+        .form-icon {
+            width: 70px;
+            height: 70px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            font-size: 29px;
+            color: white;
+            background: linear-gradient(145deg, #428bff, #8654f6);
+            border: 6px solid #dceaff;
+            box-shadow: 0 8px 20px #537ffb35;
+        }
+
+        .form-header h2 {
+            font-size: clamp(20px, 2vw, 28px);
+            letter-spacing: -1px;
+        }
+
+        .form-header p {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
+            margin-top: 5px;
+        }
+
+        /* Input grid */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 13px;
+        }
+
+        .field {
+            min-width: 0;
+            padding: 12px 13px;
+            border-radius: 15px;
+            border: 1px solid #dce9ff;
+            background: linear-gradient(145deg, #fff, #f9fbff);
+            transition: 0.25s ease;
+        }
+
+        .field:focus-within {
+            border-color: #78a7ff;
+            background: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 18px #4c83ff16;
+        }
+
+        .field label {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-height: 29px;
+            margin-bottom: 7px;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .field-icon {
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #edf4ff;
+            color: #3978ff;
+            font-size: 17px;
+        }
+
+        .field:nth-child(3) .field-icon,
+        .field:nth-child(6) .field-icon {
+            background: #fff0f5;
+            color: #f45d8c;
+        }
+
+        .field input {
+            width: 100%;
+            min-width: 0;
+            padding: 11px 12px;
+            border: 1px solid #d9e5f8;
+            border-radius: 13px;
+            background: linear-gradient(145deg, #fff, #fbfcff);
+            outline: none;
+            color: #172d55;
+            font: inherit;
+            font-size: 13px;
+            transition: border-color 0.2s;
+        }
+
+        .field input:focus {
+            border-color: #83aaff;
+        }
+
+        .field input::placeholder {
+            color: #9ba9c1;
+        }
+
+        /* Predict button */
+
+        .predict-btn {
+            width: 100%;
+            margin-top: 17px;
+            padding: 16px;
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font: inherit;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            background: linear-gradient(100deg, #568fff, #8660f8 65%, #a35bf0);
+            box-shadow: 0 7px 0 #6850d5, 0 13px 25px #8065f82d;
+            transition: 0.2s ease;
+        }
+
+        .predict-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 0 #6850d5, 0 18px 30px #8065f83c;
+        }
+
+        .predict-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 3px 0 #6850d5;
+        }
+
+        /* Result panel */
+
+        .result {
+            margin-top: 20px;
+            padding: 17px;
+            border: 1px solid #d0e5ff;
+            border-radius: 17px;
+            background: linear-gradient(120deg, #effaff, #f2f4ff);
+            animation: resultIn 0.45s ease both;
+        }
+
+        .result.high {
+            background: linear-gradient(120deg, #fff1f2, #fff7ed);
+            border-color: #ffcdd5;
+        }
+
+        .result.low {
+            background: linear-gradient(120deg, #eafff5, #eff8ff);
+            border-color: #b8efd7;
+        }
+
+        .result-row {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .result-symbol {
+            width: 50px;
+            height: 50px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: #ffffffd9;
+            font-size: 24px;
+        }
+
+        .result h3 {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .result p {
+            color: #627899;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .result-note {
+            margin-top: 13px;
+            padding: 11px;
+            border-radius: 12px;
+            background: #ffffffa8;
+        }
+
+        @keyframes resultIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Footer */
+
+        footer {
+            width: min(1450px, 100%);
+            margin: auto;
+            padding: 5px 4.5% 25px;
+        }
+
+        .footer-items {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #637ba8;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .footer-item span {
+            width: 39px;
+            height: 39px;
+            display: grid;
+            place-items: center;
+            color: white;
+            border-radius: 50%;
+            font-size: 19px;
+        }
+
+        .footer-note {
+            margin-top: 18px;
+            color: #8292ad;
+            font-size: 10px;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 1050px) {
+            .container {
+                grid-template-columns: 1fr;
+                max-width: 740px;
+                gap: 20px;
+            }
+
+            .hero {
+                text-align: center;
+            }
+
+            .description {
+                margin: auto;
+            }
+
+            .benefits {
+                justify-content: center;
+            }
+
+            .scene {
+                max-width: 440px;
+                margin: 20px auto 0;
+            }
+
+            h1 {
+                font-size: clamp(40px, 7vw, 58px);
+            }
+        }
+
+        @media (max-width: 540px) {
+            nav {
+                padding: 14px 4%;
+            }
+
+            .brand {
+                font-size: 15px;
+                gap: 9px;
+            }
+
+            .brand-icon {
+                width: 39px;
+                height: 39px;
+                font-size: 23px;
+            }
+
+            .nav-right {
+                display: none;
+            }
+
+            .container {
+                padding: 27px 13px;
+            }
+
+            h1 {
+                font-size: 39px;
+                letter-spacing: -1.8px;
+            }
+
+            .description {
+                font-size: 13px;
+            }
+
+            .benefits {
+                gap: 12px;
+            }
+
+            .benefit {
+                font-size: 10px;
+                gap: 6px;
+            }
+
+            .benefit-icon {
+                width: 37px;
+                height: 37px;
+                font-size: 17px;
+            }
+
+            .scene {
+                height: 260px;
+            }
+
+            .medical-device {
+                width: 145px;
+                padding: 13px;
+            }
+
+            .clipboard {
+                width: 125px;
+                height: 175px;
+                right: 1%;
+                bottom: 30px;
+                padding: 27px 12px 10px;
+            }
+
+            .clip {
+                left: 25px;
+                width: 65px;
+            }
+
+            .clip-heart {
+                font-size: 32px;
+            }
+
+            .plant {
+                font-size: 45px;
+            }
+
+            .floating-note {
+                padding: 9px;
+                font-size: 10px;
+            }
+
+            .form-card {
+                padding: 14px;
+                border-radius: 22px;
+            }
+
+            .form-header {
+                padding: 11px;
+                gap: 11px;
+            }
+
+            .form-icon {
+                width: 53px;
+                height: 53px;
+                font-size: 22px;
+                border-width: 4px;
+            }
+
+            .form-header h2 {
+                font-size: 19px;
+            }
+
+            .form-header p {
+                font-size: 10px;
+            }
+
+            .form-grid {
+                gap: 9px;
+            }
+
+            .field {
+                padding: 9px;
+                border-radius: 12px;
+            }
+
+            .field label {
+                font-size: 10px;
+                gap: 5px;
+                min-height: 38px;
+            }
+
+            .field-icon {
+                width: 27px;
+                height: 27px;
+                font-size: 14px;
+            }
+
+            .field input {
+                padding: 10px 6px;
+                font-size: 11px;
+            }
+
+            .predict-btn {
+                padding: 14px 8px;
+                font-size: 13px;
+            }
+
+            .footer-items {
+                justify-content: center;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Early Diabetes Risk Prediction</h1>
-    <form method="POST">
-        <label>Pregnancies:</label>
-        <input type="number" name="Pregnancies" required>
-        <br><br>
-        <label>Glucose:</label>
-        <input type="number" name="Glucose" required>
-        <br><br>
-        <label>Blood Pressure:</label>
-        <input type="number" name="BloodPressure" required>
-        <br><br>
-        <label>Skin Thickness:</label>
-        <input type="number" name="SkinThickness" required>
-        <br><br>
-        <label>Insulin:</label>
-        <input type="number" name="Insulin" required>
-        <br><br>
-        <label>BMI:</label>
-        <input type="number" step="0.1" name="BMI" required>
-        <br><br>
-        <label>Diabetes Pedigree Function:</label>
-        <input type="number" step="0.01"
-               name="DiabetesPedigreeFunction" required>
-        <br><br>
-        <label>Age:</label>
-        <input type="number" name="Age" required>
-        <br><br>
-        <button type="submit">Predict</button>
-    </form>
-    {% if prediction is not none %}
-        {% if prediction == 1 %}
-            <h2>Predicted Risk: Higher</h2>
-        {% else %}
-            <h2>Predicted Risk: Lower</h2>
-        {% endif %}
-
-    {% endif %}
-
+    <div class="bubble one"></div>
+    <div class="bubble two"></div>
+    <nav>
+        <div class="brand">
+            <div class="brand-icon">♥</div>
+            <span> Diabetes Risk Prediction</span>
+        </div>
+        <div class="nav-right">
+            Better Insights &nbsp; → &nbsp; Healthier Tomorrow &nbsp; ♡ 
+        </div>
+    </nav>
+    <main class="container">
+        <section class="hero">
+            <div class="tag">
+                <span class="tag-dot"></span>
+                AI POWERED HEALTH CHECK
+            </div>
+            <h1> Know Your<br>
+            <span class="gradient-text">Diabetes Risk</span>
+            </h1>
+            <p class="description">
+                Enter your health details and get an early prediction about your diabetes risk. Small steps today, healthier tomorrow!
+            </p>
+            <div class="benefits">
+                <div class="benefit">
+                    <div class="benefit-icon green">✦</div>
+                    <div>Quick<br>& Easy</div>
+                </div>
+                <div class="benefit">
+                    <div class="benefit-icon violet">✺</div>
+                    <div>AI<br> Analysis</div>
+                </div>
+                <div class="benefit">
+                    <div class="benefit-icon pink">✺</div>
+                    <div>Better<br> Health</div>
+                </div>
+            </div>
+            <div class="scene">
+                <div class="scene-bg"></div>
+                <div class="floating-note note-left">
+                    Your Health
+                </div>
+                <div class="medical-device">
+                    <div class="device-screen">
+                        <div class="reading">♥</div>
+                        <small>HEALTH MONITOR</small>
+                    </div>
+                    <div class="device-drop">💧</div>
+                </div>
+                <div class="clipboard">
+                    <div class="clip"></div>
+                    <div class="clip-heart">❤️</div>
+                    <div class="clip-line"></div>
+                    <div class="clip-line"></div>
+                    <div class="clip-line"></div>
+                </div>
+                <div class="plant">🪴</div>
+                <div class="floating-notes note-right"> Stay Healthy!</div>
+            </div>
+        </section>
+        <section class="form-card">
+            <div class="form-header">
+                <div class="form-icon">▤</div>
+                <div>
+                <h2> Fill in your Details</h2>
+                <p>Provide the following health information</p>
+            </div>
+            </div>
+            <form method="POST">
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="Pregnancies">
+                            <span class="field-icon">🤰</span>
+                            Pregnancies
+                        </label>
+                        <input type="number" id="Pregnancies" name="Pregnancies" required>
+                    </div>
+                    <div class="field">
+                        <label for="Glucose">
+                            <span class="field-icon">🍬</span>
+                            Glucose
+                        </label>
+                        <input type="number" id="Glucose" name="Glucose" min="0" step="any" placeholder="Enter glucose level" required>
+                    </div>
+                    <div class="field">
+                        <label for="BloodPressure">
+                            <span class="field-icon">🩸</span>
+                            Blood Pressure
+                        </label>
+                        <input type="number" id="BloodPressure" name="BloodPressure" min="0" step="any" placeholder="Enter blood pressure" required>
+                    </div>
+                    <div class="field">
+                        <label for="SkinThickness">
+                            <span class="field-icon">🩹</span>
+                            Skin Thickness
+                        </label>
+                        <input type="number" id="SkinThickness" name="SkinThickness" min="0" step="any" placeholder="Enter skin thickness" required>
+                    </div>
+                    <div class="field">
+                        <label for="Insulin">
+                            <span class="field-icon">🩹</span>
+                            Insulin
+                        </label>
+                        <input type="number" id="Insulin" name="Insulin" min="0" step="any" placeholder="Enter Insulin level" required>
+                    </div>
+                    <div class="field">
+                        <label for="BMI">
+                            <span class="field-icon">🩹</span>
+                            BMI
+                        </label>
+                        <input type="number" id="BMI" name="BMI" min="0" step="0.1" placeholder="Enter BMI" required>
+                    </div>
+                    <div class="field">
+                        <label for="DiabetesPedigreeFunction">
+                            <span class="field-icon">🩹</span>
+                            DiabetesPedigreeFunction
+                        </label>
+                        <input type="number" id="DiabetesPedigreeFunction" name="DiabetesPedigreeFunction" min="0" step="0.1" placeholder="Enter Diabetes Pedigree Function" required>
+                    </div>
+                    <div class="field">
+                        <label for="Age">
+                            <span class="field-icon">🩹</span>
+                            Age
+                        </label>
+                        <input type="number" id="Age" name="Age" min="0" step="1" placeholder="Enter Age" required>
+                    </div>
+                </div>
+                <button class="predict-btn" type="submit">
+                    ✨ &nbsp; Predict &nbsp; ⟶
+                </button>
+            </form>
+            {% if prediction is not none %}
+                {% if prediction == "High Diabetes Risk" %}
+                    <div class="result high" role="status">
+                        <div class="result-row">
+                            <div class="result-symbol">⚠️</div>
+                        </div>
+                        <h3>Predicted Risk: Higher</h3>
+                        <p>
+                            The model identified indicators associated with higher diabetes risk.
+                        </p>
+                    </div>
+                    <div class="result-note">
+                        <p>
+                            Consider consulting a healthcare professional for appropriate testing. This result is not a diagnosis.
+                        </p>
+                    </div>
+                {% else %}
+                    <div class="result low" role="status">
+                        <div class="result-row">
+                            <div class="result-symbol">✅</div>
+                        </div>
+                        <h3>Predicted Risk: Lower</h3>
+                        <p>
+                            The model identified indicators associated with lower diabetes risk.
+                        </p>
+                    </div>
+                    <div class="result-notes">
+                        <p>Maintain healthy habits and routine checkups. A lower prediction does not rule out diabetes.</p>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="result">
+                    <div class="result-row">
+                        <div class="result-symbol">❓</div>
+                    </div>
+                    <h3>Prediction Result</h3>
+                    <p>
+                        Your result will appear here after you submit the form.
+                    </p>
+                </div>
+            {% endif %}
+        </section>
+    </main>
+ <footer>
+    <div class="footer-items">
+        <div class="footer-item">
+            <span class="green">♡</span>
+            Early Detection
+        </div>
+        <div class="footer-item">
+            <span class="violet">🔮</span>
+            Better Lifestyle
+        </div>
+        <div class="footer-item">
+            <span class="green">🌱</span>
+            Healthier Living
+        </div>
+        <div class="footer-item">
+            <span class="pink"> 🩺</span>
+            Health is Wealth
+        </div>
+    </div>
+    <p class="footer-notes">
+        For eductional purposes only. Presictions are not a medical diagnosis and do not replace professional advice.
+    </p>
+ </footer>
 </body>
 </html>
